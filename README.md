@@ -13,3 +13,5 @@
 | LPC | Long play collection (vinyl records) |
 | Wishlist | the list of the records that User wants to buy in future|
 | LP Collection| Records that User already has |
+
+## HTTP API

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LPC.Domain", "LPC.Domain\LP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LPC.UnitTests", "LPC.UnitTests\LPC.UnitTests.csproj", "{0707A446-0C6A-4899-BED2-BCABF2035745}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LPC.Web", "LPC.Web\LPC.Web.csproj", "{914D749A-13EC-47A3-9AE3-FED6FCA95A64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{0707A446-0C6A-4899-BED2-BCABF2035745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0707A446-0C6A-4899-BED2-BCABF2035745}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0707A446-0C6A-4899-BED2-BCABF2035745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{914D749A-13EC-47A3-9AE3-FED6FCA95A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{914D749A-13EC-47A3-9AE3-FED6FCA95A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{914D749A-13EC-47A3-9AE3-FED6FCA95A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{914D749A-13EC-47A3-9AE3-FED6FCA95A64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

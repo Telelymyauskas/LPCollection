@@ -22,6 +22,7 @@ public class LpcDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Wishlist>().HasOne<Record>(x => x.Record);
+        modelBuilder.Entity<RecordsLibrary>().HasOne<Record>(x => x.Record);
         base.OnModelCreating(modelBuilder);
     }
 }

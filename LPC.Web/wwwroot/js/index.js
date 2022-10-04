@@ -1,10 +1,18 @@
 const bs = document.getElementById('baseContainer');
 function addRecordToWishlist(event) {
-const button = event.target;
-fetch(`/add-to-wishlist?recordid=${button.name}`, {
-    method:"PUT"
-})
-.then(response => console.log(response.json()))
+    const button = event.target;
+    fetch(`/add-to-wishlist?recordid=${button.name}`, {
+        method: "PUT"
+    })
+        window.alert('Record was successfully added to your wishlist')
+}
+function addRecordToLibrary(event) {
+    console.log("inFunction");
+    const button = event.target;
+    fetch(`/add-to-library?recordid=${button.name}`, {
+        method: "PUT"
+    })
+    window.alert('Record was successfully added to your library')
 }
 (async () => {
     const response = await fetch("/homepage")
@@ -31,6 +39,7 @@ fetch(`/add-to-wishlist?recordid=${button.name}`, {
 
             libraryButton.textContent = 'add to library'
             libraryButton.name = record.id;
+            libraryButton.addEventListener('click', addRecordToLibrary)
 
 
             block.appendChild(img);

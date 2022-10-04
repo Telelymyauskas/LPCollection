@@ -40,4 +40,14 @@ public class LpcController : ControllerBase
         });
         return Ok(result);
     }
+
+    [HttpPut("add-to-library")]
+    public async Task<IActionResult> AddToLibrary([FromQuery(Name = "recordid")] int id)
+    {
+        var result = await _mediator.Send(new AddRecordToLibraryCommand
+        {
+            Id = id
+        });
+        return Ok(result);
+    }
 }

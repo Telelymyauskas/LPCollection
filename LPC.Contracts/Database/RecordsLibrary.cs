@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LPC.Contracts.Database;
 
-[Table("tbl_owned_records", Schema = "public")]
-public class OwnedRecord
+[Table("tbl_records_library", Schema = "public")]
+public class RecordsLibrary
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,5 +14,6 @@ public class OwnedRecord
 
     [ForeignKey(nameof(Record))]
     [Column("record_owned")]
-    public int RecordWished { get; set; }
+    public int RecordOwned { get; set; }
+    public Record Record { get; init; }
 }

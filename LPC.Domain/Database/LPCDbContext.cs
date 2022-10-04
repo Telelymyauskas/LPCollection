@@ -8,7 +8,7 @@ namespace LPC.Domain.Database;
 public class LpcDbContext : DbContext
 {
     public DbSet<Record> Records { get; init; }
-    public DbSet<OwnedRecord> OwnedRecords { get; init; }
+    public DbSet<RecordsLibrary> OwnedRecords { get; init; }
 
     public DbSet<Wishlist> Wishlists { get; init; }
     public LpcDbContext() : base()
@@ -17,5 +17,11 @@ public class LpcDbContext : DbContext
 
     public LpcDbContext(DbContextOptions<LpcDbContext> options) : base(options)
     {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Wishlist>().HasOne<Record>(x => x.Record);
+        base.OnModelCreating(modelBuilder);
     }
 }

@@ -14,20 +14,30 @@ namespace LPC.Web.Controller;
 //         _dbContext = dbContext;
 //     }
 
-    public class LpcController : ControllerBase
+public class LpcController : ControllerBase
+{
+    private readonly IMediator _mediator;
+
+    public LpcController(IMediator mediator)
     {
-        private readonly IMediator _mediator;
-
-        public LpcController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
-        [HttpGet("homepage")]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await _mediator.Send(new GetAllRecordsQuery());
-
-            return Ok(result);
-        }
+        _mediator = mediator;
     }
+
+    [HttpGet("homepage")]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _mediator.Send(new GetAllRecordsQuery());
+
+        return Ok(result);
+    }
+
+    [HttpPut("add-to-wishlist")]
+    public async Task<IActionResult> AddToWishlist([FromQuery(Name = "recordid")] int id)
+    {
+        var result = await _mediator.Send(new AddRecordToWishlistCommand
+        {
+            Id = id
+        });
+        return Ok(result);
+    }
+}

@@ -15,4 +15,5 @@ public class Wishlist
     [ForeignKey(nameof(Record))]
     [Column("record_wished")]
     public int RecordWished { get; set; }
+    public Record Record { get; init; }
 }

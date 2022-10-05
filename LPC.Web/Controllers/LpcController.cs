@@ -48,6 +48,10 @@ public class LpcController : ControllerBase
         {
             Id = id
         });
+        if (result == 0)
+        {
+            return BadRequest();
+        }
         return Ok(result);
     }
 }

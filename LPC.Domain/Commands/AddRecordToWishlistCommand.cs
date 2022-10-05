@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LPC.Contracts.Database;
 using LPC.Domain.Database;
+using LPC.Domain.Helpers;
 using MediatR;
 
 namespace LPC.Domain.Commands;
@@ -26,6 +27,13 @@ public class AddRecordToWishlistCommandHandler : IRequestHandler<AddRecordToWish
         {
             RecordWished = request.Id
         };
+
+        var validator = new ValidationHelper(_dbContext);
+        if(await validator.ToValidate(request.Id) == 0)
+        {
+            return 0;
+        }
+        
         var result = await _dbContext.Wishlists.AddAsync(wishlistToAdd, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         return result.Entity.Id;

@@ -1,0 +1,31 @@
+using System.Threading.Tasks;
+using LPC.Domain.Database;
+using LPC.Domain.Helpers.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+namespace LPC.Domain.Helpers;
+
+public class ValidationHelper : IValidationHelper
+{
+    private readonly LpcDbContext _dbContext;
+
+    public ValidationHelper(LpcDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public async Task<int> ToValidate(int id)
+    {
+        var libraryRecordToValidate = await _dbContext.OwnedRecords.FirstOrDefaultAsync(x => x.RecordOwned == id);
+        if (libraryRecordToValidate != null)
+        {
+            return 0;
+        }
+        var wishlistRecordToValidate = await _dbContext.Wishlists.FirstOrDefaultAsync(x => x.RecordWished == id);
+        if (wishlistRecordToValidate != null)
+        {
+            return 0;
+        }
+        return 1;
+    }
+}

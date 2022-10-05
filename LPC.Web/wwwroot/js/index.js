@@ -60,5 +60,9 @@ function addRecordToLibrary(event) {
 })();
 const wishlistButton = document.getElementById('myWishlist');
 wishlistButton.addEventListener('click', () => {
-    window.location.href = '/CollectionViewer.html'
+    window.location.href = '/CollectionViewer.html?collectiontype=wishlist'
+})
+const libraryButton = document.getElementById('myLibrary');
+libraryButton.addEventListener('click', () => {
+    window.location.href = '/CollectionViewer.html?collectiontype=library'
 })

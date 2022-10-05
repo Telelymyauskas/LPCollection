@@ -5,14 +5,6 @@ using MediatR;
 using LPC.Domain.Commands;
 
 namespace LPC.Web.Controller;
-// public class LpcController : ControllerBase
-// {
-//     private readonly LpcDbContext _dbContext;
-
-//     public LpcController(LpcDbContext dbContext)
-//     {
-//         _dbContext = dbContext;
-//     }
 
 public class LpcController : ControllerBase
 {
@@ -56,6 +48,17 @@ public class LpcController : ControllerBase
         {
             return BadRequest();
         }
+        return Ok(result);
+    }
+
+    [HttpGet("collection")]
+    public async Task<IActionResult> GetCollection([FromQuery(Name = "collectiontype")] string type)
+    {
+        var result = await _mediator.Send(new GetCollectionQuery
+        {
+            CollectionType = type
+        });
+
         return Ok(result);
     }
 }

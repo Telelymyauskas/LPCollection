@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +32,7 @@ public class GetCollectionQueryHandler : IRequestHandler<GetCollectionQuery, Lis
     {
         if (request.CollectionType == "wishlist")
         {
-            var recordsInWishlist = await _dbContext.Wishlists.ToListAsync();
+            var recordsInWishlist = await _dbContext.Wishlists.Include(x => x.Record).ToListAsync();
             foreach (var records in recordsInWishlist)
             {
                 var result = new GetCollectionQueryResult
@@ -47,7 +46,7 @@ public class GetCollectionQueryHandler : IRequestHandler<GetCollectionQuery, Lis
         }
         if (request.CollectionType == "library")
         {
-            var recordsInLibrary = await _dbContext.Libraries.ToArrayAsync();
+            var recordsInLibrary = await _dbContext.Libraries.Include(x => x.Record).ToArrayAsync();
             foreach (var records in recordsInLibrary)
             {
                 var result = new GetCollectionQueryResult

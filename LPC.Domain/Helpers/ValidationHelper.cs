@@ -16,7 +16,7 @@ public class ValidationHelper : IValidationHelper
 
     public async Task<int> ToValidate(int id)
     {
-        var libraryRecordToValidate = await _dbContext.OwnedRecords.FirstOrDefaultAsync(x => x.RecordOwned == id);
+        var libraryRecordToValidate = await _dbContext.Libraries.FirstOrDefaultAsync(x => x.RecordOwned == id);
         if (libraryRecordToValidate != null)
         {
             return 0;

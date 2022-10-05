@@ -4,7 +4,7 @@ function addRecordToWishlist(event) {
     fetch(`/add-to-wishlist?recordid=${button.name}`, {
         method: "PUT"
     })
-        window.alert('Record was successfully added to your wishlist')
+    window.alert('Record was successfully added to your wishlist')
 }
 function addRecordToLibrary(event) {
     console.log("inFunction");
@@ -12,7 +12,14 @@ function addRecordToLibrary(event) {
     fetch(`/add-to-library?recordid=${button.name}`, {
         method: "PUT"
     })
-    window.alert('Record was successfully added to your library')
+        .then(result => {
+            console.log('result', result);
+            if (result.status === 400) {
+                window.alert('It seems like you already have this record in one of your lists');
+            } else {
+                window.alert('Record was successfully added to your library');
+            }
+        })
 }
 (async () => {
     const response = await fetch("/homepage")
@@ -53,5 +60,5 @@ function addRecordToLibrary(event) {
 })();
 const wishlistButton = document.getElementById('myWishlist');
 wishlistButton.addEventListener('click', () => {
-    window.location.href='/CollectionViewer.html'
+    window.location.href = '/CollectionViewer.html'
 })

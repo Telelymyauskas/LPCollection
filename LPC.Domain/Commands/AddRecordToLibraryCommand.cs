@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using LPC.Contracts.Database;
 using LPC.Domain.Database;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using LPC.Domain.Helpers;
 
 namespace LPC.Domain.Commands;
@@ -25,7 +23,7 @@ public class AddRecordToLibraryCommandHandler : IRequestHandler<AddRecordToLibra
 
     public async Task<int> Handle(AddRecordToLibraryCommand request, CancellationToken cancellationToken)
     {
-        var libraryToAdd = new RecordsLibrary
+        var libraryToAdd = new Library
         {
             RecordOwned = request.Id
         };
@@ -36,7 +34,7 @@ public class AddRecordToLibraryCommandHandler : IRequestHandler<AddRecordToLibra
             return 0;
         }
         
-        var result = await _dbContext.OwnedRecords.AddAsync(libraryToAdd, cancellationToken);
+        var result = await _dbContext.Libraries.AddAsync(libraryToAdd, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         return result.Entity.Id;
     }

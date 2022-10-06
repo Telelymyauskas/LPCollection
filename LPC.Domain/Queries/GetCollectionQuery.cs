@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using LPC.Contracts.Database;
 using LPC.Domain.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace LPC.Domain.Commands;
+namespace LPC.Domain.Queries;
 
 public class GetCollectionQuery : IRequest<List<GetCollectionQueryResult>>
 {

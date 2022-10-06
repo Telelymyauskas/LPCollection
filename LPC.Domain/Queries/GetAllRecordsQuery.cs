@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace LPC.Domain.Queries;
 
 public class GetAllRecordsQuery : IRequest<List<Record>>
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 }
 
 public class GetAllRecordsQueryHandler : IRequestHandler<GetAllRecordsQuery, List<Record>>

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using LPC.Domain.Database;
 using System.Threading.Tasks;
 using MediatR;
 using LPC.Domain.Commands;

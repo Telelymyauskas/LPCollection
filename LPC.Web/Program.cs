@@ -1,20 +1,9 @@
-using System;
-using System.IO;
-using System.Reflection;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-
-
-using LPC.Web.Configuration;
 using LPC.Domain.Database;
 using MediatR;
-using LPC.Domain.Commands;
+using LPC.Domain.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -40,7 +40,8 @@ function addRecordToLibrary(event) {
             artist.innerText = record.artist;
             album.innerText = record.album;
 
-            wishlistButton.textContent = 'add to wishlist'
+            wishlistButton.textContent = ''
+            wishlistButton
             wishlistButton.name = record.id;
             wishlistButton.addEventListener('click', addRecordToWishlist)
 
@@ -55,6 +56,8 @@ function addRecordToLibrary(event) {
             block.appendChild(wishlistButton);
             block.appendChild(libraryButton);
             bs.appendChild(block);
+            block.style.display='inline-block';
+            block.className='block-record';
         }
         ))
 })();

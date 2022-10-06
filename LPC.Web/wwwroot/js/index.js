@@ -28,24 +28,28 @@ function addRecordToLibrary(event) {
             console.log('record', record);
             const block = document.createElement('div');
             const img = document.createElement('img');
-            const artist = document.createElement('h4');
-            const album = document.createElement('h3');
+            const artist = document.createElement('h5');
+            const album = document.createElement('h4');
             const wishlistButton = document.createElement('button');
             const libraryButton = document.createElement('button');
 
             img.src = record.imgURL;
             img.height = 200;
             img.width = 200;
+            img.className = 'block-record'
 
             artist.innerText = record.artist;
+            artist.className ='text-container'
             album.innerText = record.album;
+            album.className = 'text-container'
 
-            wishlistButton.textContent = ''
-            wishlistButton
+            wishlistButton.textContent = '❤'
+            wishlistButton.className ='add-to-wishlist-button'
             wishlistButton.name = record.id;
             wishlistButton.addEventListener('click', addRecordToWishlist)
 
-            libraryButton.textContent = 'add to library'
+            libraryButton.textContent = '✚'
+            libraryButton.className ='add-to-library-button'
             libraryButton.name = record.id;
             libraryButton.addEventListener('click', addRecordToLibrary)
 
@@ -55,9 +59,8 @@ function addRecordToLibrary(event) {
             block.appendChild(album);
             block.appendChild(wishlistButton);
             block.appendChild(libraryButton);
+            block.style.display = 'inline-block'
             bs.appendChild(block);
-            block.style.display='inline-block';
-            block.className='block-record';
         }
         ))
 })();

@@ -31,6 +31,27 @@ public class LPCollectionService : ILPCollectionService
         return result.Entity.Id;
     }
 
+    public async Task<bool> DeleteRecord(int id, string collectionType, CancellationToken cancellationToken)
+    {
+        if (collectionType == "wishlist")
+        {
+            var recordToDelete = await _dbContext.Wishlists.FirstOrDefaultAsync(x => x.RecordWished == id);
+            _dbContext.Attach(recordToDelete);
+            var deletedRecord = _dbContext.Remove(recordToDelete);
+            await _dbContext.SaveChangesAsync();
+            return _dbContext.Entry(deletedRecord).State == EntityState.Deleted;
+        }
+        else
+        {
+            var recordToDelete = await _dbContext.Libraries.FirstOrDefaultAsync(x => x.RecordOwned == id);
+            _dbContext.Attach(recordToDelete);
+            var deletedRecord = _dbContext.Remove(recordToDelete);
+            await _dbContext.SaveChangesAsync();
+            return _dbContext.Entry(deletedRecord).State == EntityState.Deleted;
+        }
+        // return true;
+    }
+
     public async Task<List<Record>> GetAllRecords(CancellationToken cancellationToken)
     {
         return await _dbContext.Records.ToListAsync();

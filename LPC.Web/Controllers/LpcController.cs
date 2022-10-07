@@ -61,4 +61,16 @@ public class LpcController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpDelete("delete-record")]
+    public async Task<IActionResult> DeleteRecordFromCollection([FromQuery(Name = "collectiontype")] string type, [FromQuery(Name = "recordid")] int id)
+    {
+        var result = await _mediator.Send(new DeleteRecordCommand
+        {
+            CollectionType = type,
+            Id = id
+        });
+
+        return result.DeleteIsSuccessful ? NoContent() : NotFound();
+    }
 }

@@ -14,6 +14,7 @@ public class GetCollectionQuery : IRequest<List<GetCollectionQueryResult>>
 }
 public class GetCollectionQueryResult
 {
+    public int Id { get; init; }
     public string Artist { get; init; }
     public string Album { get; init; }
     public string ImgURL { get; init; }

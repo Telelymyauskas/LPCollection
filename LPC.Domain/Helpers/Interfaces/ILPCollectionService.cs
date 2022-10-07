@@ -12,4 +12,5 @@ public interface ILPCollectionService
     Task<List<Wishlist>> GetRecordsInWishlist(CancellationToken cancellationToken);
     Task<List<Library>> GetRecordsInLibrary(CancellationToken cancellationToken);
     Task<List<Record>> GetAllRecords(CancellationToken cancellationToken);
+    Task<bool> DeleteRecord(int id, string collectionType, CancellationToken cancellationToken);
 }

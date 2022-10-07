@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LPC.Contracts.Database;
 
 [Table("tbl_library", Schema = "public")]
-public class Library
+public class Library 
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

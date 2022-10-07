@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using LPC.Domain.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using LPC.Contracts.Database;
+using System.Linq;
 
 namespace LPC.Domain.Queries;
 
@@ -20,10 +23,12 @@ public class GetCollectionQueryResult
 public class GetCollectionQueryHandler : IRequestHandler<GetCollectionQuery, List<GetCollectionQueryResult>>
 {
     private readonly LpcDbContext _dbContext;
+    private readonly IMapper _lpcMapper;
     public List<GetCollectionQueryResult> ResultList { get; set; }
-    public GetCollectionQueryHandler(LpcDbContext dbContext)
+    public GetCollectionQueryHandler(LpcDbContext dbContext, IMapper lpcMapper)
     {
         _dbContext = dbContext;
+        _lpcMapper = lpcMapper;
         ResultList = new List<GetCollectionQueryResult>();
     }
 
@@ -32,30 +37,16 @@ public class GetCollectionQueryHandler : IRequestHandler<GetCollectionQuery, Lis
         if (request.CollectionType == "wishlist")
         {
             var recordsInWishlist = await _dbContext.Wishlists.Include(x => x.Record).ToListAsync();
-            foreach (var records in recordsInWishlist)
-            {
-                var result = new GetCollectionQueryResult
-                {
-                    Artist = records.Record.Artist,
-                    Album = records.Record.Album,
-                    ImgURL = records.Record.ImgURL
-                };
-                ResultList.Add(result);
-            }
+            ResultList = recordsInWishlist
+                .Select(x => _lpcMapper.Map<GetCollectionQueryResult>(x.Record))
+                .ToList();
         }
         if (request.CollectionType == "library")
         {
-            var recordsInLibrary = await _dbContext.Libraries.Include(x => x.Record).ToArrayAsync();
-            foreach (var records in recordsInLibrary)
-            {
-                var result = new GetCollectionQueryResult
-                {
-                    Artist = records.Record.Artist,
-                    Album = records.Record.Album,
-                    ImgURL = records.Record.ImgURL
-                };
-                ResultList.Add(result);
-            }
+            var recordsInLibrary = await _dbContext.Libraries.Include(x => x.Record).ToListAsync();
+            ResultList = recordsInLibrary
+                .Select(x => _lpcMapper.Map<GetCollectionQueryResult>(x.Record))
+                .ToList();
         }
         return ResultList;
     }

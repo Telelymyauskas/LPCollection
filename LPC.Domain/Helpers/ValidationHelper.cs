@@ -14,18 +14,10 @@ public class ValidationHelper : IValidationHelper
         _dbContext = dbContext;
     }
 
-    public async Task<int> ToValidate(int id)
+    public async Task<bool> ValidateRecordDuplication(int id)
     {
         var libraryRecordToValidate = await _dbContext.Libraries.FirstOrDefaultAsync(x => x.RecordOwned == id);
-        if (libraryRecordToValidate != null)
-        {
-            return 0;
-        }
         var wishlistRecordToValidate = await _dbContext.Wishlists.FirstOrDefaultAsync(x => x.RecordWished == id);
-        if (wishlistRecordToValidate != null)
-        {
-            return 0;
-        }
-        return 1;
+        return libraryRecordToValidate == null && wishlistRecordToValidate == null;
     }
 }

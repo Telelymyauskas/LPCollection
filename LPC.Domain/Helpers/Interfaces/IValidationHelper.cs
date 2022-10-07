@@ -4,5 +4,5 @@ namespace LPC.Domain.Helpers.Interfaces;
 
 public interface IValidationHelper
 {
-    Task<int> ToValidate(int id);
+    Task<bool> ValidateRecordDuplication(int id);
 }

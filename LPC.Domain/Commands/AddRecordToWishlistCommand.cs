@@ -29,7 +29,7 @@ public class AddRecordToWishlistCommandHandler : IRequestHandler<AddRecordToWish
         };
 
         var validator = new ValidationHelper(_dbContext);
-        if(await validator.ToValidate(request.Id) == 0)
+        if(!await validator.ValidateRecordDuplication(request.Id))
         {
             return 0;
         }

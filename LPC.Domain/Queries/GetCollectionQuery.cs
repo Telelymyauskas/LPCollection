@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using LPC.Domain.Database;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using LPC.Contracts.Database;
 using System.Linq;
+using LPC.Domain.Helpers.Interfaces;
 
 namespace LPC.Domain.Queries;
 
@@ -22,12 +20,12 @@ public class GetCollectionQueryResult
 }
 public class GetCollectionQueryHandler : IRequestHandler<GetCollectionQuery, List<GetCollectionQueryResult>>
 {
-    private readonly LpcDbContext _dbContext;
     private readonly IMapper _lpcMapper;
+    private readonly ILPCollectionService _lpCollectionService;
     public List<GetCollectionQueryResult> ResultList { get; set; }
-    public GetCollectionQueryHandler(LpcDbContext dbContext, IMapper lpcMapper)
+    public GetCollectionQueryHandler(IMapper lpcMapper, ILPCollectionService lpCollectionService)
     {
-        _dbContext = dbContext;
+        _lpCollectionService = lpCollectionService;
         _lpcMapper = lpcMapper;
         ResultList = new List<GetCollectionQueryResult>();
     }
@@ -36,14 +34,14 @@ public class GetCollectionQueryHandler : IRequestHandler<GetCollectionQuery, Lis
     {
         if (request.CollectionType == "wishlist")
         {
-            var recordsInWishlist = await _dbContext.Wishlists.Include(x => x.Record).ToListAsync();
+            var recordsInWishlist = await _lpCollectionService.GetRecordsInWishlist(cancellationToken);
             ResultList = recordsInWishlist
                 .Select(x => _lpcMapper.Map<GetCollectionQueryResult>(x.Record))
                 .ToList();
         }
         if (request.CollectionType == "library")
         {
-            var recordsInLibrary = await _dbContext.Libraries.Include(x => x.Record).ToListAsync();
+            var recordsInLibrary = await _lpCollectionService.GetRecordsInLibrary(cancellationToken);
             ResultList = recordsInLibrary
                 .Select(x => _lpcMapper.Map<GetCollectionQueryResult>(x.Record))
                 .ToList();

@@ -4,7 +4,14 @@ function addRecordToWishlist(event) {
     fetch(`/add-to-wishlist?recordid=${button.name}`, {
         method: "PUT"
     })
-    window.alert('Record was successfully added to your wishlist')
+        .then(result => {
+            console.log('result', result);
+            if (result.status === 400) {
+                window.alert('It seems like you already have this record in one of your lists');
+            } else {
+                window.alert('Record was successfully added to your wishlist');
+            }
+        })
 }
 function addRecordToLibrary(event) {
     console.log("inFunction");
@@ -39,17 +46,17 @@ function addRecordToLibrary(event) {
             img.className = 'block-record'
 
             artist.innerText = record.artist;
-            artist.className ='text-container'
+            artist.className = 'text-container'
             album.innerText = record.album;
             album.className = 'text-container'
 
             wishlistButton.textContent = '❤'
-            wishlistButton.className ='add-to-wishlist-button'
+            wishlistButton.className = 'add-to-wishlist-button'
             wishlistButton.name = record.id;
             wishlistButton.addEventListener('click', addRecordToWishlist)
 
             libraryButton.textContent = '✚'
-            libraryButton.className ='add-to-library-button'
+            libraryButton.className = 'add-to-library-button'
             libraryButton.name = record.id;
             libraryButton.addEventListener('click', addRecordToLibrary)
 

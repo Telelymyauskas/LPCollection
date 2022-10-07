@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using LPC.Contracts.Database;
 using LPC.Domain.Database;
 using LPC.Domain.Helpers;
+using LPC.Domain.Helpers.Interfaces;
 using MediatR;
 
 namespace LPC.Domain.Commands;
@@ -15,10 +16,13 @@ public class AddRecordToWishlistCommand : IRequest<int>
 public class AddRecordToWishlistCommandHandler : IRequestHandler<AddRecordToWishlistCommand, int>
 {
     private readonly LpcDbContext _dbContext;
+    private readonly ILPCollectionService _lpCollectionService;
 
-    public AddRecordToWishlistCommandHandler(LpcDbContext dbContext)
+
+    public AddRecordToWishlistCommandHandler(LpcDbContext dbContext, ILPCollectionService lpCollectionService)
     {
         _dbContext = dbContext;
+        _lpCollectionService = lpCollectionService;
     }
 
     public async Task<int> Handle(AddRecordToWishlistCommand request, CancellationToken cancellationToken)
@@ -34,8 +38,6 @@ public class AddRecordToWishlistCommandHandler : IRequestHandler<AddRecordToWish
             return 0;
         }
         
-        var result = await _dbContext.Wishlists.AddAsync(wishlistToAdd, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        return result.Entity.Id;
+        return await _lpCollectionService.AddRecordToCollection(wishlistToAdd, cancellationToken);
     }
 }

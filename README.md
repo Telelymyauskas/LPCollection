@@ -1,4 +1,5 @@
 # LP Collection Service 
+This repository describes LP Collection API
 
 ## User Stories
 - As a User I want to create an empty colletion of LP records in stock 
@@ -16,11 +17,26 @@
 | LP Collection| Records that User already has |
 
 ## HTTP API
-PUT 
-PUT 
-GET
-GET
-GET
-DELETE 
+GET /web/homepage -> Returns 201 
+GET /web/collection={collectiontype} -> Returns 201 
+PUT /web/add-to-wishlist/{recordid} -> Returns 201 / 400 Bad request if chosen record has alredy been added to one of lists
+PUT /web/add-to-library/{recordid} -> Returns 201 / 400 Bad request if chosen record has alredy been added to one of lists
+DELETE /api/present/{presentId} -> Returns 204 No content
 DELETE 
 ![Alt Text](https://upload.wikimedia.org/wikipedia/ru/6/61/Rickrolling.gif)
+
+## MODELS
+Record 
+- id
+- artist
+- album
+- releaseDate
+- img URL
+
+Library
+-id
+-recordOwned
+
+Wishlist
+-id
+-recordWished

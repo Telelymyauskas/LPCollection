@@ -4,6 +4,7 @@ using LPC.Contracts.Database;
 using LPC.Domain.Database;
 using MediatR;
 using LPC.Domain.Helpers;
+using LPC.Domain.Helpers.Interfaces;
 
 namespace LPC.Domain.Commands;
 
@@ -15,10 +16,12 @@ public class AddRecordToLibraryCommand : IRequest<int>
 public class AddRecordToLibraryCommandHandler : IRequestHandler<AddRecordToLibraryCommand, int>
 {
     private readonly LpcDbContext _dbContext;
+    private readonly ILPCollectionService _lpCollectionService;
 
-    public AddRecordToLibraryCommandHandler(LpcDbContext dbContext)
+    public AddRecordToLibraryCommandHandler(LpcDbContext dbContext, ILPCollectionService lpCollectionService)
     {
         _dbContext = dbContext;
+        _lpCollectionService = lpCollectionService;
     }
 
     public async Task<int> Handle(AddRecordToLibraryCommand request, CancellationToken cancellationToken)
@@ -29,13 +32,11 @@ public class AddRecordToLibraryCommandHandler : IRequestHandler<AddRecordToLibra
         };
 
         var validator = new ValidationHelper(_dbContext);
-        if(!await validator.ValidateRecordDuplication(request.Id))
+        if (!await validator.ValidateRecordDuplication(request.Id))
         {
             return 0;
         }
-        
-        var result = await _dbContext.Libraries.AddAsync(libraryToAdd, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        return result.Entity.Id;
+
+        return await _lpCollectionService.AddRecordToCollection(libraryToAdd, cancellationToken);
     }
 }

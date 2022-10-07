@@ -1,0 +1,48 @@
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using LPC.Contracts.Database;
+using LPC.Domain.Database;
+using LPC.Domain.Helpers.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+namespace LPC.Domain.Helpers;
+
+public class LPCollectionService : ILPCollectionService
+{
+    private readonly LpcDbContext _dbContext;
+
+    public LPCollectionService(LpcDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public async Task<int> AddRecordToCollection(Library libraryToAdd, CancellationToken cancellationToken)
+    {
+        var result = await _dbContext.Libraries.AddAsync(libraryToAdd, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        return result.Entity.Id;
+    }
+
+    public async Task<int> AddRecordToCollection(Wishlist wishlistToAdd, CancellationToken cancellationToken)
+    {
+        var result = await _dbContext.Wishlists.AddAsync(wishlistToAdd, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        return result.Entity.Id;
+    }
+
+    public async Task<List<Record>> GetAllRecords(CancellationToken cancellationToken)
+    {
+        return await _dbContext.Records.ToListAsync();
+    }
+
+    public async Task<List<Library>> GetRecordsInLibrary(CancellationToken cancellationToken)
+    {
+        return await _dbContext.Libraries.Include(x => x.Record).ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<Wishlist>> GetRecordsInWishlist(CancellationToken cancellationToken)
+    {
+        return await _dbContext.Wishlists.Include(x => x.Record).ToListAsync(cancellationToken);
+    }
+}

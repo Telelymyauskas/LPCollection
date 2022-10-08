@@ -1,6 +1,6 @@
 using AutoMapper;
 using LPC.Domain.Helpers.Interfaces;
-using LPC.Domain.Mapper;
+using LPC.UnitTests.Helpers;
 using LPC.Domain.Queries;
 using MediatR;
 using Moq;
@@ -17,18 +17,13 @@ public class GetAllRecordsQueryHandlerTest
 
     public GetAllRecordsQueryHandlerTest()
     {
-        var mappingConfig = new MapperConfiguration(mc =>
-                {
-                    mc.AddProfile(new LPCProfile());
-                });
-        IMapper mapper = mappingConfig.CreateMapper();
-        _mapper = mapper;
+        _mapper = MapperCreator.CreateMapper();
         _lpCollectionService = new Mock<ILPCollectionService>();
         _handler = new GetAllRecordsQueryHandler(_mapper, _lpCollectionService.Object);
     }
 
     [Fact]
-    public async Task AllRecordsShouldBeRetrievedFromDb()
+    public async Task AllRecordsShouldBeFoundInDb()
     {
         //Arrange 
         List<LpRecord> TestRecords = new List<LpRecord>()
@@ -51,4 +46,5 @@ public class GetAllRecordsQueryHandlerTest
         result.ShouldNotBeNull();
         result.ShouldNotBeEmpty();
     }
+
 }

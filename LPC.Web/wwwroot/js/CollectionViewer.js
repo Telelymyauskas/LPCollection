@@ -44,8 +44,9 @@ function deleteRecord(event) {
             album.innerText = record.album;
             album.className = 'text-container';
 
-            deleteButton.textContent = 'Remove';
+            deleteButton.textContent = 'remove';
             deleteButton.name = record.id;
+            deleteButton.className = 'remove-record-button'
             deleteButton.addEventListener('click', deleteRecord)
 
             block.appendChild(img);

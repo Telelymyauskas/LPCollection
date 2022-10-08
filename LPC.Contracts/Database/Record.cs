@@ -22,7 +22,7 @@ public class Record
 
     [Required]
     [Column("release_date")]
-    public int CreatedAt { get; set; }
+    public int ReleaseDate { get; set; }
 
     [Required]
     [MaxLength(300)]

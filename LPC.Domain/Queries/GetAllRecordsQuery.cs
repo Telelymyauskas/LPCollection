@@ -10,7 +10,6 @@ namespace LPC.Domain.Queries;
 
 public class GetAllRecordsQuery : IRequest<List<GetAllRecordsQueryResult>>
 {
-    public int Id { get; set; }
 }
 
 public class GetAllRecordsQueryResult

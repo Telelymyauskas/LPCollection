@@ -33,22 +33,29 @@ public class LPCollectionService : ILPCollectionService
 
     public async Task<bool> DeleteRecord(int id, string collectionType, CancellationToken cancellationToken)
     {
-        if (collectionType == "wishlist")
+        try
         {
-            var recordToDelete = await _dbContext.Wishlists.FirstOrDefaultAsync(x => x.RecordWished == id);
-            _dbContext.Attach(recordToDelete);
-            var deletedRecord = _dbContext.Remove(recordToDelete);
-            await _dbContext.SaveChangesAsync();
-            return _dbContext.Entry(deletedRecord).State == EntityState.Deleted;
+            if (collectionType == "wishlist")
+            {
+                var recordToDelete = await _dbContext.Wishlists.FirstOrDefaultAsync(x => x.RecordWished == id);
+                _dbContext.Attach(recordToDelete);
+                var deletedRecord = _dbContext.Remove(recordToDelete);
+                await _dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                var recordToDelete = await _dbContext.Libraries.FirstOrDefaultAsync(x => x.RecordOwned == id);
+                _dbContext.Attach(recordToDelete);
+                var deletedRecord = _dbContext.Remove(recordToDelete);
+                await _dbContext.SaveChangesAsync();
+            }
+            return true;
         }
-        else
+        catch (DbUpdateException)
         {
-            var recordToDelete = await _dbContext.Libraries.FirstOrDefaultAsync(x => x.RecordOwned == id);
-            _dbContext.Attach(recordToDelete);
-            var deletedRecord = _dbContext.Remove(recordToDelete);
-            await _dbContext.SaveChangesAsync();
-            return _dbContext.Entry(deletedRecord).State == EntityState.Deleted;
+            return false;
         }
+
         // return true;
     }
 

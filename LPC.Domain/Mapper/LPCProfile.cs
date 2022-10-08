@@ -1,5 +1,4 @@
 using AutoMapper;
-using LPC.Domain.Queries;
 
 namespace LPC.Domain.Mapper;
 

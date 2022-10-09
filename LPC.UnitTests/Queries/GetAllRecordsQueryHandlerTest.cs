@@ -6,6 +6,10 @@ using MediatR;
 using Moq;
 using Shouldly;
 using LpRecord = LPC.Contracts.Database.Record;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
+using System.Threading;
 
 namespace LPC.UnitTests.Queries;
 
@@ -26,7 +30,7 @@ public class GetAllRecordsQueryHandlerTest
     public async Task AllRecordsShouldBeFoundInDb()
     {
         //Arrange 
-        List<LpRecord> TestRecords = new List<LpRecord>()
+        List<LpRecord> testRecords = new List<LpRecord>()
         {
             new LpRecord
             {
@@ -37,7 +41,7 @@ public class GetAllRecordsQueryHandlerTest
             }
         };
 
-        _lpCollectionService.Setup(x => x.GetAllRecords(It.IsAny<CancellationToken>())).Returns(Task.FromResult(TestRecords));
+        _lpCollectionService.Setup(x => x.GetAllRecords(It.IsAny<CancellationToken>())).Returns(Task.FromResult(testRecords));
 
         // Act
         var result = await _handler.Handle(new GetAllRecordsQuery(), CancellationToken.None);
@@ -45,6 +49,10 @@ public class GetAllRecordsQueryHandlerTest
         //Assert
         result.ShouldNotBeNull();
         result.ShouldNotBeEmpty();
+        result[0].ShouldBeOfType<GetAllRecordsQueryResult>();
+        result[0].Id.ShouldBe(testRecords[0].Id);
+        result[0].Artist.ShouldBe(testRecords[0].Artist);
+        result[0].Album.ShouldBe(testRecords[0].Album);
+        result[0].ImgURL.ShouldBe(testRecords[0].ImgURL);
     }
-
 }

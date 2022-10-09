@@ -15,13 +15,13 @@ public class AddRecordToLibraryCommand : IRequest<int>
 
 public class AddRecordToLibraryCommandHandler : IRequestHandler<AddRecordToLibraryCommand, int>
 {
-    private readonly LpcDbContext _dbContext;
     private readonly ILPCollectionService _lpCollectionService;
+    private readonly IValidationHelper _validatorHelper;
 
-    public AddRecordToLibraryCommandHandler(LpcDbContext dbContext, ILPCollectionService lpCollectionService)
+    public AddRecordToLibraryCommandHandler(ILPCollectionService lpCollectionService, IValidationHelper validatorHelper)
     {
-        _dbContext = dbContext;
         _lpCollectionService = lpCollectionService;
+        _validatorHelper = validatorHelper;
     }
 
     public async Task<int> Handle(AddRecordToLibraryCommand request, CancellationToken cancellationToken)
@@ -31,8 +31,7 @@ public class AddRecordToLibraryCommandHandler : IRequestHandler<AddRecordToLibra
             RecordOwned = request.Id
         };
 
-        var validator = new ValidationHelper(_dbContext);
-        if (!await validator.ValidateRecordDuplication(request.Id))
+        if (!await _validatorHelper.ValidateRecordDuplication(request.Id))
         {
             return 0;
         }

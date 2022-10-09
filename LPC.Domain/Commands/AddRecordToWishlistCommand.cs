@@ -15,14 +15,15 @@ public class AddRecordToWishlistCommand : IRequest<int>
 
 public class AddRecordToWishlistCommandHandler : IRequestHandler<AddRecordToWishlistCommand, int>
 {
-    private readonly LpcDbContext _dbContext;
+    private readonly IValidationHelper _validationHelper;
     private readonly ILPCollectionService _lpCollectionService;
 
 
-    public AddRecordToWishlistCommandHandler(LpcDbContext dbContext, ILPCollectionService lpCollectionService)
+    public AddRecordToWishlistCommandHandler(ILPCollectionService lpCollectionService, IValidationHelper validationHelper)
     {
-        _dbContext = dbContext;
+
         _lpCollectionService = lpCollectionService;
+        _validationHelper = validationHelper;
     }
 
     public async Task<int> Handle(AddRecordToWishlistCommand request, CancellationToken cancellationToken)
@@ -32,12 +33,11 @@ public class AddRecordToWishlistCommandHandler : IRequestHandler<AddRecordToWish
             RecordWished = request.Id
         };
 
-        var validator = new ValidationHelper(_dbContext);
-        if(!await validator.ValidateRecordDuplication(request.Id))
+        if (!await _validationHelper.ValidateRecordDuplication(request.Id))
         {
             return 0;
         }
-        
+
         return await _lpCollectionService.AddRecordToCollection(wishlistToAdd, cancellationToken);
     }
 }

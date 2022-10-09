@@ -17,6 +17,7 @@ builder.Services.AddDbContext<LpcDbContext>((options) => _ = options.UseNpgsql("
 builder.Services.AddMediatR(typeof(GetAllRecordsQueryHandler));
 builder.Services.AddAutoMapper(typeof(LPCProfile));
 builder.Services.AddTransient(typeof(ILPCollectionService), typeof(LPCollectionService));
+builder.Services.AddTransient(typeof(IValidationHelper), typeof(ValidationHelper));
 
 var app = builder.Build();
 
